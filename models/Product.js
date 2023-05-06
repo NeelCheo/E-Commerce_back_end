@@ -22,18 +22,28 @@ Product.init(
     },
 
     price:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
       allowNull: false,
+      validate: {
+        isDecimal: function(value) {
+          if (!/^\d+(\.\d+)?$/.test(value)) {
+            throw new Error('Price must be a decimal number.');
+          }
+        },
+      },
     },
 
     stock:{
       type: DataTypes.INTEGER,
-      defaultValue: 0,
+      allowNull: false,
+      defaultValue: 10,
+      validate: {
+        isNumeric: true,
+      },
     },
     
     category_id:{
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
         model: 'category',
         key: 'id',
